@@ -41,9 +41,9 @@ class Training:
         pass
 
     def show_training_info(self) -> InfoMessage:
-        distance = self.get_distance()
-        speed = self.get_mean_speed()
-        calories = self.get_spent_calories()
+        distance: float = self.get_distance()
+        speed: float = self.get_mean_speed()
+        calories: float = self.get_spent_calories()
         return InfoMessage(type(self).__name__, self.duration,
                            distance, speed, calories)
 
@@ -106,7 +106,7 @@ class Swimming(Training):
 
 
 def read_package(workout_type: str, data: list) -> Training:
-    workout_dict = {
+    workout_dict: dict[str, str] = {
         'RUN': Running,
         'WLK': SportsWalking,
         'SWM': Swimming
