@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Union, Sequence, Type
 
 
 @dataclass
@@ -38,7 +39,7 @@ class Training:
         return self.get_distance() / self.duration
 
     def get_spent_calories(self) -> float:
-        pass
+        raise NotImplementedError('Undefined workout type.')
 
     def show_training_info(self) -> InfoMessage:
         distance: float = self.get_distance()
@@ -106,7 +107,7 @@ class Swimming(Training):
 
 
 def read_package(workout_type: str, data: list) -> Training:
-    workout_dict: dict[str, str] = {
+    workout_dict: Sequence[Union[Type[Training]]] = {
         'RUN': Running,
         'WLK': SportsWalking,
         'SWM': Swimming
@@ -115,12 +116,12 @@ def read_package(workout_type: str, data: list) -> Training:
     if workout_type not in workout_dict:
         raise ValueError(f"Unsupported workout type '{workout_type}'")
 
-    workout_class = workout_dict[workout_type]
+    workout_class: Type[Union[Training]] = workout_dict[workout_type]
     return workout_class(*data)
 
 
 def main(training: Training) -> None:
-    info = training.show_training_info()
+    info: InfoMessage = training.show_training_info()
     print(info.get_message())
 
 
